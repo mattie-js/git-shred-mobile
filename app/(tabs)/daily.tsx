@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   checkRow: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
   checkbox: { fontSize: 24, marginRight: 12 },
   checkLabel: { color: "#fff", fontSize: 16 },
-  targets: { color: "#666", fontSize: 14, marginTop: 8, margin Bottom: 32 },
+  targets: { color: "#666", fontSize: 14, marginTop: 8, marginBottom: 32 },
   closeButton: { backgroundColor: "#555", borderRadius: 12, padding: 18, alignItems: "center" },
   closeButtonDone: { backgroundColor: "#2D5016" },
   closeButtonText: { color: "#fff", fontSize: 16, fontWeight: "700" },
