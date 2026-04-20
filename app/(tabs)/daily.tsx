@@ -22,8 +22,15 @@ export default function DailyScreen() {
   const loadTodayLog = async () => {
     setLoading(true);
     const data = await getTodayLog(userId);
+    console.log("LOG DATA:", JSON.stringify(data));
     setLog(data);
-    if (data.status === "completed") setDayClosed(true);
+    if (data.status === "completed") {
+      setDayClosed(true);
+      setTrainingComplete(data.training_complete || false);
+      setNutritionComplete(data.nutrition_complete || false);
+      setCardioComplete(data.cardio_complete || false);
+      setStepsComplete(data.steps_complete || false);
+    }
     setLoading(false);
   };
 
