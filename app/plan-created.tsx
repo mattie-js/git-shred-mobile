@@ -4,7 +4,7 @@ import { useUser } from "../context/UserContext";
 
 export default function PlanCreated() {
   const { plan, userId, checkinDay } = useLocalSearchParams();
-  const { setUserId, setCheckinDay } = useUser();
+  const { setUserId, setCheckinDay, setPlan} = useUser();
   const p = JSON.parse(plan as string);
 
   return (
