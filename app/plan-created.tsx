@@ -3,8 +3,8 @@ import { useLocalSearchParams, router } from "expo-router";
 import { useUser } from "../context/UserContext";
 
 export default function PlanCreated() {
-  const { plan, userId } = useLocalSearchParams();
-  const { setUserId } = useUser();
+  const { plan, userId, checkinDay } = useLocalSearchParams();
+  const { setUserId, setCheckinDay } = useUser();
   const p = JSON.parse(plan as string);
 
   return (
@@ -39,7 +39,7 @@ export default function PlanCreated() {
 
       <TouchableOpacity style={styles.button} onPress={() => {
         setUserId(Number(userId));
-        router.replace({ pathname: "/(tabs)/checkin" });
+        console.log("checkinDay:", checkinDay); setUserId(Number(userId)); setCheckinDay(Number(checkinDay)); router.replace({ pathname: "/(tabs)/checkin" });
       }}>
         <Text style={styles.buttonText}>Let's Go 💪</Text>
       </TouchableOpacity>
@@ -57,3 +57,5 @@ const styles = StyleSheet.create({
   button: { width: "100%", backgroundColor: "#2D5016", borderRadius: 12, padding: 16, alignItems: "center", marginTop: 24 },
   buttonText: { color: "white", fontSize: 16, fontWeight: "600" }
 });
+
+

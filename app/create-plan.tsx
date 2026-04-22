@@ -35,7 +35,7 @@ export default function CreatePlan() {
     setLoading(false);
 
     if (result.user_id) {
-      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id }});
+      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id, checkinDay: result.checkin_day }});
     } else {
       Alert.alert("Error creating plan", result.detail || "Please try again");
     }
@@ -109,3 +109,4 @@ const styles = StyleSheet.create({
   button: { width: "100%", backgroundColor: "#2D5016", borderRadius: 12, padding: 16, alignItems: "center", marginTop: 32, marginBottom: 40 },
   buttonText: { color: "white", fontSize: 16, fontWeight: "600" }
 });
+
