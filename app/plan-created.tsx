@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useUser } from "../context/UserContext";
 
 export default function PlanCreated() {
@@ -39,7 +39,8 @@ export default function PlanCreated() {
 
       <TouchableOpacity style={styles.button} onPress={() => {
         setUserId(Number(userId));
-        console.log("checkinDay:", checkinDay); setUserId(Number(userId)); setCheckinDay(Number(checkinDay)); router.replace({ pathname: "/(tabs)/checkin" });
+        setCheckinDay(Number(checkinDay));
+        router.replace({ pathname: "/(tabs)/checkin" });
       }}>
         <Text style={styles.buttonText}>Let's Go 💪</Text>
       </TouchableOpacity>
