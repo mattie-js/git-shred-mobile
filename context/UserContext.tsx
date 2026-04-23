@@ -20,6 +20,8 @@ type UserContextType = {
   setCheckinDay: (day: number) => void;
   plan: Plan | null;
   setPlan: (plan: Plan) => void;
+  startingWeight: number | null;
+  setStartingWeight: (weight: number) => void;
 };
 
 const UserContext = createContext<UserContextType>({
@@ -28,16 +30,19 @@ const UserContext = createContext<UserContextType>({
   checkinDay: null,
   setCheckinDay: () => {},
   plan: null,
-  setPlan: () => {}
+  setPlan: () => {},
+  startingWeight: null,
+  setStartingWeight: () => {}
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [userId, setUserId] = useState<number | null>(null);
   const [checkinDay, setCheckinDay] = useState<number | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [startingWeight, setStartingWeight] = useState<number | null>(null);
 
   return (
-    <UserContext.Provider value={{ userId, setUserId, checkinDay, setCheckinDay, plan, setPlan }}>
+    <UserContext.Provider value={{ userId, setUserId, checkinDay, setCheckinDay, plan, setPlan, startingWeight, setStartingWeight }}>
       {children}
     </UserContext.Provider>
   );

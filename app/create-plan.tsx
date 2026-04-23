@@ -35,7 +35,8 @@ export default function CreatePlan() {
     setLoading(false);
 
     if (result.user_id) {
-      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id, checkinDay: result.checkin_day }});
+      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id, 
+        checkinDay: result.checkin_day, weightLbs: result.weight_lbs }});
     } else {
       Alert.alert("Error creating plan", result.detail || "Please try again");
     }

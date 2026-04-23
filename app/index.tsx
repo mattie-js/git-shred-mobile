@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { loginUser } from "../services/api";
 import { router } from "expo-router";
+import { useState } from "react";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useUser } from "../context/UserContext";
+import { loginUser } from "../services/api";
 
 export default function HomeScreen() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUserId, setCheckinDay } = useUser();
+  const { setUserId, setCheckinDay, setPlan, setStartingWeight} = useUser();
+
+
 
   const handleLogin = async () => {
     if (!email) {
@@ -21,6 +23,8 @@ export default function HomeScreen() {
     if (result.user_id) {
       setUserId(result.user_id);
       setCheckinDay(result.checkin_day);
+      setPlan(result.plan);
+      setStartingWeight(result.weight_lbs);
       router.replace({ pathname: "/(tabs)/checkin" });
     } else {
       router.push({ pathname: "/create-plan", params: { email } });

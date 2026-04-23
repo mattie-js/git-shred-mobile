@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useUser } from "../context/UserContext";
 
 export default function PlanCreated() {
-  const { plan, userId, checkinDay } = useLocalSearchParams();
-  const { setUserId, setCheckinDay, setPlan} = useUser();
+  const { plan, userId, checkinDay, weightLbs } = useLocalSearchParams();
+  const { setUserId, setCheckinDay, setPlan, setStartingWeight} = useUser();
   const p = JSON.parse(plan as string);
 
   return (
@@ -40,6 +40,8 @@ export default function PlanCreated() {
       <TouchableOpacity style={styles.button} onPress={() => {
         setUserId(Number(userId));
         setCheckinDay(Number(checkinDay));
+        setPlan(JSON.parse(plan as string));
+        setStartingWeight(Number(weightLbs));
         router.replace({ pathname: "/(tabs)/checkin" });
       }}>
         <Text style={styles.buttonText}>Let's Go 💪</Text>
