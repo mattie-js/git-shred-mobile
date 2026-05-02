@@ -59,3 +59,27 @@ export const saveTrainingTemplate = async (userId, schedule) => {
   });
   return response.json();
 };
+
+export const getSupplementTemplate = async (userId) => {
+  const response = await fetch(`${BASE_URL}/supplement-template/${userId}`);
+  return response.json();
+};
+
+export const saveSupplementTemplate = async (userId, supplements) => {
+  const response = await fetch(`${BASE_URL}/supplement-template/${userId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ supplements })
+  });
+  return response.json();
+};
+
+export const getProgressHistory = async (userId) => {
+  const response = await fetch(`${BASE_URL}/progress/${userId}`);
+  return response.json();
+};
+
+export const getDailyLogHistory = async (userId) => {
+  const response = await fetch(`${BASE_URL}/daily-log/history/${userId}`);
+  return response.json();
+};

@@ -1,14 +1,14 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useUser } from "../context/UserContext";
 
 export default function PlanCreated() {
   const { plan, userId, checkinDay, weightLbs } = useLocalSearchParams();
-  const { setUserId, setCheckinDay, setPlan, setStartingWeight} = useUser();
+  const { setUserId, setCheckinDay, setPlan, setStartingWeight } = useUser();
   const p = JSON.parse(plan as string);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>💪 Your Plan</Text>
       <Text style={styles.subtitle}>You're all set. Let's get shredded.</Text>
 
@@ -46,19 +46,17 @@ export default function PlanCreated() {
       }}>
         <Text style={styles.buttonText}>Let's Go 💪</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F8F9FA", alignItems: "center", justifyContent: "center", padding: 24 },
-  title: { fontSize: 32, fontWeight: "700", color: "#1A1A1A", marginBottom: 4 },
-  subtitle: { fontSize: 16, color: "#6B7280", marginBottom: 32 },
-  card: { width: "100%", backgroundColor: "white", borderRadius: 12, borderWidth: 1, borderColor: "#E5E7EB", padding: 16, marginBottom: 10, flexDirection: "row", justifyContent: "space-between" },
-  metric: { fontSize: 14, color: "#6B7280", fontWeight: "500" },
-  value: { fontSize: 16, fontWeight: "700", color: "#1A1A1A" },
-  button: { width: "100%", backgroundColor: "#2D5016", borderRadius: 12, padding: 16, alignItems: "center", marginTop: 24 },
+  container: { flexGrow: 1, backgroundColor: "#000", alignItems: "center", justifyContent: "center", padding: 24, paddingTop: 60 },
+  title: { fontSize: 32, fontWeight: "700", color: "#fff", marginBottom: 4 },
+  subtitle: { fontSize: 16, color: "#888", marginBottom: 32 },
+  card: { width: "100%", backgroundColor: "#111", borderRadius: 12, borderWidth: 1, borderColor: "#333", padding: 16, marginBottom: 10, flexDirection: "row", justifyContent: "space-between" },
+  metric: { fontSize: 14, color: "#888", fontWeight: "500" },
+  value: { fontSize: 16, fontWeight: "700", color: "#fff" },
+  button: { width: "100%", backgroundColor: "#2D5016", borderRadius: 12, padding: 16, alignItems: "center", marginTop: 24, marginBottom: 40 },
   buttonText: { color: "white", fontSize: 16, fontWeight: "600" }
 });
-
-

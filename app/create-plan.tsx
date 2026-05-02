@@ -12,8 +12,11 @@ export default function CreatePlan() {
   const [activityLevel, setActivityLevel] = useState(3);
   const [goalWeight, setGoalWeight] = useState("");
   const [weeksToGoal, setWeeksToGoal] = useState("");
+  const [aggressiveness, setAggressiveness] = useState(2);
   const [checkinDay, setCheckinDay] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const noTimeframe = parseInt(weeksToGoal) === 0;
 
   const handleSubmit = async () => {
     if (!age || !heightIn || !weight || !goalWeight || !weeksToGoal) {
@@ -30,12 +33,13 @@ export default function CreatePlan() {
       activity_level: activityLevel,
       goal_weight: parseFloat(goalWeight),
       weeks_to_goal: parseInt(weeksToGoal),
+      aggressiveness: noTimeframe ? aggressiveness : 2,
       checkin_day: checkinDay
     });
     setLoading(false);
 
     if (result.user_id) {
-      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id, 
+      router.push({ pathname: "/plan-created", params: { plan: JSON.stringify(result.plan), userId: result.user_id,
         checkinDay: result.checkin_day, weightLbs: result.weight_lbs }});
     } else {
       Alert.alert("Error creating plan", result.detail || "Please try again");
@@ -48,7 +52,7 @@ export default function CreatePlan() {
       <Text style={styles.subtitle}>Let's build your plan</Text>
 
       <Text style={styles.label}>Age</Text>
-      <TextInput style={styles.input} placeholder="Age" value={age} onChangeText={setAge} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="Age" placeholderTextColor="#555" value={age} onChangeText={setAge} keyboardType="numeric" />
 
       <Text style={styles.label}>Sex</Text>
       <View style={styles.row}>
@@ -61,18 +65,39 @@ export default function CreatePlan() {
       </View>
 
       <Text style={styles.label}>Height (inches)</Text>
-      <TextInput style={styles.input} placeholder="Height in inches" value={heightIn} onChangeText={setHeightIn} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="Height in inches" placeholderTextColor="#555" value={heightIn} onChangeText={setHeightIn} keyboardType="numeric" />
 
       <Text style={styles.label}>Current Weight (lbs)</Text>
-      <TextInput style={styles.input} placeholder="Current weight" value={weight} onChangeText={setWeight} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="Current weight" placeholderTextColor="#555" value={weight} onChangeText={setWeight} keyboardType="numeric" />
 
       <Text style={styles.label}>Goal Weight (lbs)</Text>
-      <TextInput style={styles.input} placeholder="Goal weight" value={goalWeight} onChangeText={setGoalWeight} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="Goal weight" placeholderTextColor="#555" value={goalWeight} onChangeText={setGoalWeight} keyboardType="numeric" />
 
       <Text style={styles.label}>Timeframe (weeks, 0 = no timeframe)</Text>
-      <TextInput style={styles.input} placeholder="Weeks to goal" value={weeksToGoal} onChangeText={setWeeksToGoal} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="Weeks to goal" placeholderTextColor="#555" value={weeksToGoal} onChangeText={setWeeksToGoal} keyboardType="numeric" />
 
-      <Text style={styles.label}>Activity Level (avg steps/ day)</Text>
+      {noTimeframe && (
+        <>
+          <Text style={styles.label}>How aggressive do you want to diet?</Text>
+          <Text style={styles.labelSub}>This sets your weekly rate of loss as a % of bodyweight</Text>
+          {[
+            [1, "Conservative", "0.5% BW/week — slow and steady"],
+            [2, "Moderate", "0.75% BW/week — recommended"],
+            [3, "Aggressive", "1% BW/week — faster but harder"],
+          ].map(([val, label, desc]) => (
+            <TouchableOpacity
+              key={String(val)}
+              style={[styles.optionBtn, aggressiveness === val && styles.optionBtnActive, { width: "100%", marginBottom: 8 }]}
+              onPress={() => setAggressiveness(val as number)}
+            >
+              <Text style={[styles.optionText, aggressiveness === val && styles.optionTextActive]}>{label as string}</Text>
+              <Text style={[styles.optionDesc, aggressiveness === val && styles.optionTextActive]}>{desc as string}</Text>
+            </TouchableOpacity>
+          ))}
+        </>
+      )}
+
+      <Text style={styles.label}>Activity Level (avg steps/day)</Text>
       {[[1, "Sedentary (<5k steps)"], [2, "Lightly Active (5-7.5k)"], [3, "Moderately Active (7.5-10k)"], [4, "Very Active (10-12.5k)"], [5, "Extremely Active (12.5k+)"]].map(([val, label]) => (
         <TouchableOpacity key={String(val)} style={[styles.optionBtn, activityLevel === val && styles.optionBtnActive, { width: "100%", marginBottom: 8 }]} onPress={() => setActivityLevel(val as number)}>
           <Text style={[styles.optionText, activityLevel === val && styles.optionTextActive]}>{label}</Text>
@@ -96,19 +121,19 @@ export default function CreatePlan() {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "#F8F9FA", alignItems: "center", padding: 24, paddingTop: 60 },
-  title: { fontSize: 32, fontWeight: "700", color: "#1A1A1A", marginBottom: 4 },
-  subtitle: { fontSize: 16, color: "#6B7280", marginBottom: 32 },
-  label: { alignSelf: "flex-start", fontSize: 14, fontWeight: "600", color: "#374151", marginBottom: 6, marginTop: 12 },
-  input: { width: "100%", backgroundColor: "white", borderWidth: 1, borderColor: "#E5E7EB", borderRadius: 12, padding: 14, fontSize: 16, marginBottom: 4 },
+  container: { backgroundColor: "#000", alignItems: "center", padding: 24, paddingTop: 60 },
+  title: { fontSize: 32, fontWeight: "700", color: "#fff", marginBottom: 4 },
+  subtitle: { fontSize: 16, color: "#888", marginBottom: 32 },
+  label: { alignSelf: "flex-start", fontSize: 14, fontWeight: "600", color: "#888", marginBottom: 6, marginTop: 12 },
+  labelSub: { alignSelf: "flex-start", fontSize: 12, color: "#555", marginBottom: 10, marginTop: -4 },
+  input: { width: "100%", backgroundColor: "#111", borderWidth: 1, borderColor: "#333", borderRadius: 12, padding: 14, fontSize: 16, marginBottom: 4, color: "#fff" },
   row: { flexDirection: "row", gap: 8, marginBottom: 4, flexWrap: "wrap" },
-  optionBtn: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 10, borderWidth: 1, borderColor: "#E5E7EB", backgroundColor: "white" },
+  optionBtn: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 10, borderWidth: 1, borderColor: "#333", backgroundColor: "#111" },
   optionBtnActive: { backgroundColor: "#2D5016", borderColor: "#2D5016" },
-  optionText: { color: "#374151", fontWeight: "500" },
-  optionTextActive: { color: "white" },
-  dayBtn: { paddingVertical: 8, paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, borderColor: "#E5E7EB", backgroundColor: "white" },
+  optionText: { color: "#888", fontWeight: "500" },
+  optionTextActive: { color: "#fff" },
+  optionDesc: { color: "#555", fontSize: 12, marginTop: 2 },
+  dayBtn: { paddingVertical: 8, paddingHorizontal: 6, borderRadius: 10, borderWidth: 1, borderColor: "#333", backgroundColor: "#111" },
   button: { width: "100%", backgroundColor: "#2D5016", borderRadius: 12, padding: 16, alignItems: "center", marginTop: 32, marginBottom: 40 },
   buttonText: { color: "white", fontSize: 16, fontWeight: "600" }
 });
-
-

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useUser } from "../../context/UserContext";
-import { getProgress, getTrainingTemplate, saveTrainingTemplate } from "../../services/api";
+import { getDailyLogHistory, getTrainingTemplate, saveTrainingTemplate } from "../../services/api";
 
 const DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
@@ -25,9 +25,10 @@ export default function ProfileScreen() {
 
   const loadProfile = async () => {
     setLoading(true);
-    const progress = await getProgress(userId);
-    if (progress.history && progress.history.length > 0) {
-      setCurrentWeight(progress.history[progress.history.length - 1].weight);
+    const logs = await getDailyLogHistory(userId);
+    const bwLogs = (logs.history || []).filter((l: any) => l.bodyweight_lbs != null);
+    if (bwLogs.length > 0) {
+      setCurrentWeight(bwLogs[bwLogs.length - 1].bodyweight_lbs);
     } else {
       setCurrentWeight(startingWeight);
     }

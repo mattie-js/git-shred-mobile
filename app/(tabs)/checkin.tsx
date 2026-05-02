@@ -22,7 +22,7 @@ export default function CheckinScreen() {
 
   useEffect(() => {
     if (userId) loadScreen();
-  }, [userId]);
+  }, [userId, checkinDay]);
 
   const loadScreen = async () => {
     setLoading(true);

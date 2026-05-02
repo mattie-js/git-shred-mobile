@@ -11,6 +11,7 @@ type Plan = {
   weeks_to_goal: number;
   rate_of_loss_pct: number;
   prescribed_steps: number | null;
+  created_at: string;
 };
 
 type UserContextType = {
